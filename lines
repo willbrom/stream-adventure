@@ -1,0 +1,14 @@
+const through = require('through2')
+const split = require('split2')
+
+let line = 1
+
+process.stdin.pipe(split())
+.pipe(through(function (chunk, enc, cb){
+    let s = chunk.toString() + '\n'
+    if (line % 2) this.push(s.toLowerCase())
+    else this.push(s.toUpperCase())
+    line++
+    cb()
+}))
+.pipe(process.stdout)
